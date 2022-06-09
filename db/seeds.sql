@@ -1,13 +1,13 @@
 use employee_tracker;
 
-INSERT INTO departments (name)
+INSERT INTO department (name)
 VALUES
 ('Accounting'),
 ('Finance'),
 ('Sales'),
 ('Legal');
 
-INSERT INTO roles (title, salary, department_id)
+INSERT INTO role (title, salary, department_id)
 VALUES
 ('Accounting Manager', 150000, 1),
 ('Senior Accountant', 120000, 1),
@@ -15,7 +15,7 @@ VALUES
 ('Salesperson', 80000, 3),
 ('Lawyer', 190000, 4);
 
-INSERT INTO employees (first_name, last_name, role_id, manager_id)
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES
 ('Dave', 'Chen', 1, NULL),
 ('Paul', 'Nguyen', 2, 1),
