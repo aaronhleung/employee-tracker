@@ -16,7 +16,7 @@ class DB {
             `INSERT INTO role(title, salary, department_id) VALUE ('${roleName}', ${roleSalary}, ${roleDept});`
         );
     }
-    createDept(department){
+    createDepartment(department){
         return this.connection.promise().query(
             "INSERT INTO department(name) VALUE (?);", department
         );
@@ -24,18 +24,18 @@ class DB {
     
     findAllEmployees(){
         return this.connection.promise().query(
-            "SELECT employee.id, employee.first_name, employee.last_name, employee.role_id, employee.manager_id, role.id, role.title, role.salary, role.department_id, department.id, department.name FROM , role, department WHERE role.department_id = department.id AND employee.role_id = role.id;"
+            "SELECT employee.role_id AS 'employee id', employee.first_name, employee.last_name, employee.manager_id, role.title, role.salary, role.department_id, department.name FROM employee, role, department WHERE role.department_id = department.id AND employee.role_id = role.id;"
         );
     }
     
     findAllRoles(){
         return this.connection.promise().query(
-            "SELECT role.id, role.title, role.salary, role.department_id, department.id, department.name FROM role, department WHERE role.department_id = department.id;"
+            "SELECT role.title, role.salary, role.department_id, department.name AS 'department name' FROM role, department WHERE role.department_id = department.id;"
         );
     }
     findAllDepartments(){
         return this.connection.promise().query(
-            "SELECT * FROM departments;"
+            "SELECT * FROM department;"
         );
     }
 
