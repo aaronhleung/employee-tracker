@@ -1,3 +1,5 @@
+USE employee_tracker
+
 DROP DATABASE IF EXISTS departments;
 DROP DATABASE IF EXISTS roles;
 DROP DATABASE IF EXISTS employees;
