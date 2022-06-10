@@ -47,6 +47,4 @@ class DB {
     }
 }
 
-// delete operations here
-
 module.exports = new DB(connection);
