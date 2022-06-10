@@ -9,10 +9,10 @@ const connection = require('./db/connection');
 init();
 
 function init() {
-    startApp();
+    startPrompt();
 }
 
-function startApp() {
+function startPrompt() {
     inquirer
         .prompt([
             {
@@ -60,7 +60,7 @@ function viewEmployees() {
       console.log("\n");
       console.table(employees);
     })
-    .then(() => startApp());
+    .then(() => startPrompt());
 }
 
 function viewRoles() {
@@ -70,7 +70,7 @@ function viewRoles() {
       console.log("\n");
       console.table(roles);
     })
-    .then(() => startApp());
+    .then(() => startPrompt());
 }
 
 function viewDepartments() {
@@ -80,70 +80,12 @@ function viewDepartments() {
       console.log("\n");
       console.table(departments);
     })
-    .then(() => startApp());
+    .then(() => startPrompt());
 }
-
-// function addEmployee() {
-//   let query = "SELECT title FROM employees.role";
-//   connection.query(query, function (err, res) {
-//       if (err) throw err;
-//       let roleArray = [];
-//       inquirer
-//           .prompt([
-
-//               {
-//                   type: "input",
-//                   message: "What is the employee's first name?",
-//                   name: "firstname"
-//               },
-//               {
-//                   type: "input",
-//                   message: "What is the employee's last name?",
-//                   name: "lastname"
-//               },
-//               {
-//                   type: "rawlist",
-//                   choices: function () {
-//                       for (let i = 0; i < res.length; i++) {
-//                           roleArray.push(res[i].title);
-//                       }
-//                       return roleArray;
-//                   },
-//                   message: "What is the employee's role?",
-//                   name: "role",
-//               },
-//               {
-//                   type: "input",
-//                   message: "What is the employer's manager's ID?",
-//                   name: "manager_ID"
-//               }
-//           ])
-//           .then(function (answer) {
-//               let query = "INSERT INTO employee SET ?";
-//               connection.query(query,
-//                   {
-//                       first_name: answer.firstname,
-//                       last_name: answer.lastname,
-//                       role_id: roleArray.indexOf(answer.role) + 1,
-//                       manager_id: answer.manager_ID
-//                   },
-//                   function (err) {
-//                       if (err) throw err;
-//                   });
-//               startApp();
-//           });
-//   });
-// }
-
 
 function addEmployee() {
   inquirer
       .prompt([
-          // {
-          //     name: "employeeID",
-          //     type: "input",
-          //     message: "What is the ID of the new employee?",
-          // },
           {
               name: "first_name",
               type: "input",
@@ -168,7 +110,6 @@ function addEmployee() {
 
       .then(function(response) {
           connection.query("INSERT INTO employee SET ?", {
-                  // id: response.employeeID,
                   first_name: response.first_name,
                   last_name: response.last_name,
                   role_id: response.role,
@@ -176,10 +117,95 @@ function addEmployee() {
               },
               function(err) {
                   if (err) throw err;
-                  // console.log("Your new employee was created successfully!");
-                  startApp();
+                  startPrompt();
               }
           );
       });
 };
 
+function addDepartment() {
+  inquirer
+      .prompt([
+          {
+              name: "department_id",
+              type: "input",
+              message: "What is the ID of the new department?",
+          },
+          {
+              name: "department_name",
+              type: "input",
+              message: "What is the name of the new department?",
+          }
+      ])
+
+      .then(function(response) {
+          connection.query("INSERT INTO department SET ?", {
+                  id: response.department_id,
+                  department_name: response.department_name,
+              },
+              function(err) {
+                  if (err) throw err;
+                  startPrompt();
+              }
+          );
+      });
+};
+
+function addRole() {
+  inquirer
+      .prompt([
+          {
+              name: "role_id",
+              type: "input",
+              message: "What is the ID of the new role?",
+          },
+          {
+              name: "role_title",
+              type: "input",
+              message: "What is the title of the new role?",
+          },
+          {
+              name: "role_salary",
+              type: "input",
+              message: "What is the salary of the new role?",
+          },
+          {
+              name: "role_department",
+              type: "input",
+              message: "What is the department ID of the new role?",
+          }
+      ])
+
+      .then(function(response) {
+          connection.query("INSERT INTO role SET ?", {
+                  id: response.role_id,
+                  title: response.role_title,
+                  salary: response.role_salary,
+                  department_id: response.role_department,
+              },
+              function(err) {
+                  if (err) throw err;
+                  startPrompt();
+              }
+          );
+      });
+};
+
+// todo
+function updateEmployeeRole() {
+  inquirer
+      .prompt([
+          {
+              type: "input",
+              message: "Which employee would you like to update?",
+              name: "employeeUpdate"
+          },
+          {
+              type: "input",
+              message: "What role would you like to update to?",
+              name: "roleUpdate"
+          }
+      ])
+    //   log the updated role
+    startPrompt();
+}
